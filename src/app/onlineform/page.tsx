@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FaUser, FaEnvelope, FaPhone, FaLocationDot, FaSchool, FaBriefcase, FaCalendar, FaClock, FaCreditCard, FaMoneyBillWave, FaArrowRight, FaCircleCheck, FaSpinner } from "react-icons/fa6";
 import axios from "axios";
 import { COURSES } from "@/constants";
 
-const OnlineFormPage = () => {
+const OnlineFormContent = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const courseFromUrl = searchParams.get("course");
@@ -335,6 +335,21 @@ const OnlineFormPage = () => {
                 </div>
             </main>
         </div>
+    );
+};
+
+const OnlineFormPage = () => {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <FaSpinner className="text-4xl text-[#00548B] animate-spin" />
+                    <p className="text-slate-500 font-medium">Loading form...</p>
+                </div>
+            </div>
+        }>
+            <OnlineFormContent />
+        </Suspense>
     );
 };
 
